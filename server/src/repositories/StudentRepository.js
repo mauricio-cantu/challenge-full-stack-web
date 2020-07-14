@@ -14,6 +14,15 @@ const StudentRepository = {
     return studentRA;
   },
 
+  async update(ra, name, email) {
+    await knexConn("students").where({ ra }).update({ name, email });
+    return ra;
+  },
+
+  delete: async (ra) => {
+    await knexConn("students").where({ ra }).delete();
+  },
+
   async verifyExistingRA(ra) {
     const [countQuery] = await knexConn("students")
       .where("ra", ra)
