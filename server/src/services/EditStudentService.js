@@ -3,7 +3,7 @@ const { NotFoundError, InvalidFieldsError } = require("../utils/CustomErrors");
 const validateEmail = require("../utils/validateEmail");
 
 const EditStudentService = {
-  async execute(ra, name, email) {
+  execute: async (ra, name, email) => {
     let invalidFields = [];
 
     if (!(await studentRepository.verifyExistingRA(ra)))

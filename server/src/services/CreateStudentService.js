@@ -3,7 +3,7 @@ const validateEmail = require("../utils/validateEmail");
 const { InvalidFieldsError } = require("../utils/CustomErrors");
 
 const CreateStudentService = {
-  async execute(name, email, cpf, ra) {
+  execute: async (name, email, cpf, ra) => {
     let invalidFields = [];
 
     if (await studentRepository.verifyExistingRA(ra))

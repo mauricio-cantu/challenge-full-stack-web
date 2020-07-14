@@ -1,7 +1,7 @@
 const knexConn = require("../database/connection");
 
 const StudentRepository = {
-  async create(name, email, cpf, ra) {
+  create: async (name, email, cpf, ra) => {
     const [studentRA] = await knexConn("students")
       .insert({
         name,
@@ -14,7 +14,7 @@ const StudentRepository = {
     return studentRA;
   },
 
-  async update(ra, name, email) {
+  update: async (ra, name, email) => {
     await knexConn("students").where({ ra }).update({ name, email });
     return ra;
   },
@@ -23,7 +23,7 @@ const StudentRepository = {
     await knexConn("students").where({ ra }).delete();
   },
 
-  async verifyExistingRA(ra) {
+  verifyExistingRA: async (ra) => {
     const [countQuery] = await knexConn("students")
       .where("ra", ra)
       .count("* as total");

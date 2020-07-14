@@ -4,9 +4,24 @@ const createStudentService = require("../services/CreateStudentService");
 const editStudentService = require("../services/EditStudentService");
 const deleteStudentService = require("../services/DeleteStudentService");
 const { MissingFieldsError } = require("../utils/CustomErrors");
+const knexConn = require("../database/connection");
 
 studentsRouter.get("/", async (request, response) => {
-  return response.json({ message: "GrupoA Challenge" });
+  try {
+    const { page = 1, rows = 5 } = request.query;
+    const [count] = await knexConn("students").count();
+
+    const students = await knexConn("students")
+      .limit(rows)
+      .offset((page - 1) * rows)
+      .select("*");
+
+    response.header("X-Total-Count", count.count);
+
+    return response.json(students);
+  } catch (err) {
+    next(err);
+  }
 });
 
 studentsRouter.post("/", async (request, response, next) => {
