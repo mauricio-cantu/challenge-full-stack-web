@@ -1,6 +1,6 @@
 const studentRepository = require("../repositories/StudentRepository");
-const CustomError = require("../utils/CustomError");
 const validateEmail = require("../utils/validateEmail");
+const { InvalidFieldsError } = require("../utils/CustomErrors");
 
 const CreateStudentService = {
   async execute(name, email, cpf, ra) {
@@ -9,12 +9,12 @@ const CreateStudentService = {
     if (await studentRepository.verifyExistingRA(ra))
       invalidFields.push("RA já vinculado a outro aluno.");
 
+    if (ra.trim().length != 6) invalidFields.push("RA deve possuir 6 dígitos.");
+
     if (!validateEmail(email)) invalidFields.push("Email inválido.");
 
     if (invalidFields.length) {
-      error = new CustomError();
-      error.message = invalidFields;
-      throw error;
+      throw new InvalidFieldsError(invalidFields);
     }
 
     const studentRA = await studentRepository.create(name, email, cpf, ra);
