@@ -25,4 +25,12 @@ export default {};
   display: flex;
   justify-content: center;
 }
+
+.swal2-container {
+  font-family: "Roboto", sans-serif;
+}
+
+.swal2-header {
+  margin-right: 10px;
+}
 </style>

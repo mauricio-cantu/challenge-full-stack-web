@@ -23,16 +23,21 @@ export default {
       student: {},
     };
   },
+
   methods: {
     createStudent() {
-      try {
-        api.post("students", this.student).then((response) => {
-          alert("Aluno cadastrado com sucesso.");
+      api
+        .post("students", this.student)
+        .then((response) => {
+          this.$swal({ text: "Aluno cadastrado com sucesso." });
           this.$router.push({ name: "Index" });
+        })
+        .catch((error) => {
+          this.$swal({
+            text: "Algo de errado aconteceu. Tente novamente.",
+            icon: "error",
+          });
         });
-      } catch (error) {
-        alert("Algo de errado aconteceu. Tente novamente.");
-      }
     },
   },
 };

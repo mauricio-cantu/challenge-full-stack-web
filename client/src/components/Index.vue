@@ -62,14 +62,18 @@ export default {
     },
 
     deleteStudent(ra) {
-      try {
-        api.delete(`students/${ra}`).then((response) => {
+      api
+        .delete(`students/${ra}`)
+        .then((response) => {
           this.getStudents();
-          alert("Aluno deletado com sucesso.");
+          this.$swal({ text: "Aluno deletado com sucesso." });
+        })
+        .catch((error) => {
+          this.$swal({
+            text: "Algo de errado aconteceu. Tente novamente.",
+            icon: "error",
+          });
         });
-      } catch (err) {
-        alert("Algo de errado aconteceu.");
-      }
     },
   },
 };

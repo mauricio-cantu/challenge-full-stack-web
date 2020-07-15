@@ -40,16 +40,18 @@ export default {
 
   methods: {
     updateStudent() {
-      try {
-        api
-          .put(`students/${this.student.ra}`, this.student)
-          .then((response) => {
-            alert("Aluno alterado com sucesso.");
-            this.$router.push({ name: "Index" });
+      api
+        .put(`students/${this.student.ra}`, this.student)
+        .then((response) => {
+          this.$swal({ text: "Aluno alterado com sucesso." });
+          this.$router.push({ name: "Index" });
+        })
+        .catch((error) => {
+          this.$swal({
+            text: "Algo de errado aconteceu. Tente novamente.",
+            icon: "error",
           });
-      } catch (error) {
-        alert("Algo de errado aconteceu. Tente novamente.");
-      }
+        });
     },
 
     getStudent() {

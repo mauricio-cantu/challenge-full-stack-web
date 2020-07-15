@@ -5,11 +5,19 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import App from "./App.vue";
 import routes from "./routes";
+import VueSweetalert2 from "vue-sweetalert2";
+
+Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-
-Vue.config.productionTip = false;
+Vue.use(VueSweetalert2, {
+  toast: true,
+  icon: "success",
+  timer: 3000,
+  position: "top-end",
+  showConfirmButton: false,
+});
 
 const router = new VueRouter({ mode: "history", routes });
 
