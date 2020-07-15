@@ -8,17 +8,20 @@ const knexConn = require("../database/connection");
 
 studentsRouter.get("/", async (request, response) => {
   try {
-    const { page = 1, rows = 5 } = request.query;
-    const [count] = await knexConn("students").count();
-
-    const students = await knexConn("students")
-      .limit(rows)
-      .offset((page - 1) * rows)
-      .select("*");
-
-    response.header("X-Total-Count", count.count);
+    const students = await knexConn("students").select("*");
 
     return response.json(students);
+  } catch (err) {
+    next(err);
+  }
+});
+
+studentsRouter.get("/:ra", async (request, response) => {
+  const { ra } = request.params;
+
+  try {
+    const student = await knexConn("students").where({ ra }).select("*");
+    return response.json(student[0]);
   } catch (err) {
     next(err);
   }

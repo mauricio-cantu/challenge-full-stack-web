@@ -4,9 +4,9 @@ const cors = require("cors");
 const routes = require("./routes/");
 const handleErrors = require("./middleware/handleErrors");
 const app = express();
-
-dotenv.config();
 app.use(cors());
+dotenv.config();
+
 app.use(express.json());
 app.use(routes);
 app.use(handleErrors);
