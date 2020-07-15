@@ -1,8 +1,78 @@
 <template>
-  <div>
-    Edit Component
-  </div>
+  <section class="form">
+    <v-form v-on:submit.prevent="updateStudent">
+      <v-text-field v-model="student.name" label="Nome" required></v-text-field>
+      <v-text-field
+        v-model="student.email"
+        label="E-mail"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="student.ra"
+        value=""
+        disabled
+        label="RA"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="student.cpf"
+        disabled
+        label="CPF"
+        required
+      ></v-text-field>
+      <v-btn color="success" type="submit">Concluir</v-btn>
+      <v-btn class="btn-cancel" color="error" to="/">Cancelar</v-btn>
+    </v-form>
+  </section>
 </template>
 <script>
-export default {};
+import api from "../services/api";
+
+export default {
+  data() {
+    return {
+      student: {},
+    };
+  },
+  created: function() {
+    this.getStudent();
+  },
+
+  methods: {
+    updateStudent() {
+      try {
+        api
+          .put(`students/${this.student.ra}`, this.student)
+          .then((response) => {
+            alert("Aluno alterado com sucesso.");
+            this.$router.push({ name: "Index" });
+          });
+      } catch (error) {
+        alert("Algo de errado aconteceu. Tente novamente.");
+      }
+    },
+
+    getStudent() {
+      api.get(`students/${this.$route.params.ra}`).then((response) => {
+        this.student = response.data;
+      });
+    },
+  },
+};
 </script>
+
+<style>
+.form {
+  width: 60%;
+  box-shadow: 1px 2px 20px 0px #505050a3;
+  padding: 20px;
+}
+
+.form .btn-cancel {
+  float: right;
+}
+
+.form .v-input {
+  margin-bottom: 20px;
+}
+</style>
