@@ -34,7 +34,7 @@ export default {
         })
         .catch((error) => {
           this.$swal({
-            text: "Algo de errado aconteceu. Tente novamente.",
+            text: "Algo de errado aconteceu. Tente de novo ai.",
             icon: "error",
           });
         });
